@@ -1,0 +1,107 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-plain">
+                    <div class="header">
+                        <h4 class="title">Ticket List</h4>
+                        <p class="category">##</p>
+                    </div>
+                    <div class="content table-responsive table-full-width">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th> Address </th>
+                                    <th> Subject </th>
+                                    <th> Content </th>
+                                    <th> TicketStatus </th>
+                                    <th>Priority</th>
+                                    
+                                    <th> Action </th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let t of ticketList ">
+                                    <td>{{t.address}}</td>
+                                    <td>{{t.subject}}</td>
+                                    <td>{{t.content}}</td>
+                                    <td>{{t.status}}</td>
+                                    <td>{{ getPriorityByStatus(t.status) }}</td>
+                                    
+                                    <td>
+                                        <button (click)="deleteTicket(t.ticketId)" class="btn btn-danger">Delete</button>
+                                        <button (click)="openPopupForUpdate(t)" class="btn btn-info">Update</button>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br><br><br>
+                        
+
+                        <!-- Button to trigger the popup -->
+                      <div style="display:flex;justify-content:center;">   <button class="btn btn-primary" (click)="openPopupForCreate()">Make A Ticket</button>
+                      </div>
+                        <!-- The popup content -->
+                        <div class="modal" tabindex="-1" role="dialog" *ngIf="showModal" style="display: block; ">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                        <div class="modal-header bg-primary text-white" style="background-color: #bb1111">
+
+                                        <button *ngIf="!isUpdate"  type="button" class="btn-close text-white" aria-label="Close" (click)="closePopupForUpdate()"></button>
+                                        <button *ngIf="isUpdate"  type="button" class="btn-close text-white" aria-label="Close" (click)="closePopupForCreate()"></button>
+
+                                    </div>
+                                    <div class="modal-body custom-modal-body">
+                                        <!-- Form inside the popup -->
+
+                                        <h2 *ngIf="!isUpdate" class="text-center mb-4">Add Ticket</h2>
+                                        <h2 *ngIf="isUpdate" class="text-center mb-4">Update Your Ticket</h2>
+
+                                        <form (ngSubmit)="onSubmit()"  #boutiqueForm="ngForm" class="p-4 border rounded">
+                    
+                                            <div class="form-group">
+                                                <label for="ticketstatus" hidden>ticketStatus :</label>
+                                                <input type="hidden" id="ticketMethod" name="ticketMethod" value="true" >
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="address">Address :</label>
+                                                <input class="form-control" id="address" name="address" [(ngModel)]="ticket.address">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="subject">Subject :</label>
+                                                <input class="form-control" id="subject" name="subject" [(ngModel)]="ticket.subject">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="content">Content :</label>
+                                                <input class="form-control" id="content" name="content" [(ngModel)]="ticket.content">
+                                            </div>
+                                            <div class="text-center">
+                                                <button *ngIf="!isUpdate" type="submit" class="btn btn-danger" [disabled]="!boutiqueForm.valid">Add</button>
+                                                <button *ngIf="isUpdate" type="submit" class="btn btn-info" [disabled]="!boutiqueForm.valid">Update</button>
+                                            </div>
+
+
+                                        </form>
+
+
+
+
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button *ngIf="!isUpdate" type="button" class="btn btn-secondary" (click)="closePopupForCreate()">Close</button>
+                                        <button *ngIf="isUpdate" type="button" class="btn btn-secondary" (click)="closePopupForUpdate()">Close</button>
+
+                                    </div>
+
+                                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        </div>
+    </div>
+</div>
